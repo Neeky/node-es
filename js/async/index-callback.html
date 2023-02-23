@@ -20,7 +20,7 @@
         btnRequest.addEventListener('click', () => {
             console.log(`pos-a: ${Date.now()}`)
 
-            let xhr = new XMLHttpRequest()
+            const xhr = new XMLHttpRequest()
 
             xhr.addEventListener('loadend', () => {
                 console.log(`pos-c: ${Date.now()}`)
