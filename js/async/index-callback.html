@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="xhr">Click start requests</button>
+    <button id="reload">Reload</button>
+
+    <pre readonly class="event-log"></pre>
+
+    <script>
+        const btnRequest = document.querySelector("#xhr")
+        const btnReload = document.querySelector("#reload")
+        const log = document.querySelector(".event-log")
+
+        btnRequest.addEventListener('click', () => {
+            console.log(`pos-a: ${Date.now()}`)
+
+            let xhr = new XMLHttpRequest()
+
+            xhr.addEventListener('loadend', () => {
+                console.log(`pos-c: ${Date.now()}`)
+                log.textContent = `${log.textContent}Finished with status: ${xhr.status}\n`
+            })
+
+            xhr.open("GET", "https://raw.githubusercontent.com/mdn/content/main/files/en-us/_wikihistory.json")
+
+            xhr.send()
+
+            console.log(`pos-b: ${Date.now()}`)
+            log.textContent = `${log.textContent}Started XHR request\n`
+        })
+
+        btnReload.addEventListener('click', () => {
+            log.textContent = ''
+        document.location.reload()
+        })
+
+
+    </script>
+</body>
+</html>
