@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="xhr">Click start requests</button>
+    <button id="reload">Reload</button>
+
+    <pre readonly class="event-log"></pre>
+
+    <script>
+        const btnRequest = document.querySelector("#xhr")
+        const btnReload = document.querySelector("#reload")
+        const log = document.querySelector(".event-log")
+
+        btnRequest.addEventListener('click', () => {
+
+            console.log(`pos-a: ${Date.now()}`)
+
+            const fetchPromise = fetch("https://raw.githubusercontent.com/mdn/content/main/files/en-us/_wikihistory.json")
+
+            fetchPromise.then((response)=>{
+                console.log(`pos-c: ${Date.now()}`)
+                log.textContent = `${log.textContent}Finished with status: ${response.status}\n`
+
+                // 这里的 json 函数也是异步的
+                const responseJson = response.json()
+                // 再 then 一次
+                responseJson.then(data => {
+                    // 如果采集这种写法的话，也就是说回到了之后 callback 形式了
+                    // 这样缩进的深度就不好控制了ßßß
+                    console.log(data)
+                })
+            })
+            console.log(`pos-b: ${Date.now()}`)
+            log.textContent = `${log.textContent}Started XHR request\n`
+        })
+
+        btnReload.addEventListener('click', () => {
+            log.textContent = ''
+        document.location.reload()
+        })
+    </script>
+</body>
+</html>

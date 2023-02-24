@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="xhr">Click start requests</button>
+    <button id="reload">Reload</button>
+
+    <pre readonly class="event-log"></pre>
+
+    <script>
+        const btnRequest = document.querySelector("#xhr")
+        const btnReload = document.querySelector("#reload")
+        const log = document.querySelector(".event-log")
+
+        async function queryData() {
+            try {
+                console.log(`pos-a: ${Date.now()}`)
+                const response = await fetch("https://raw.githubusercontent.com/mdn/content/main/files/en-us/_wikihistory.json")
+                console.log(`pos-b: ${Date.now()}`)
+                if (!response.ok) {
+                    log.textContent = `Could not get products: ${error}`
+                    console.log(`pos-c: ${Date.now()}`)
+                    return
+                }
+
+                const data = await response.json()
+                console.log(`pos-c: ${Date.now()}`)
+                console.log(data);
+            }
+            catch(err) {
+
+            }
+            console.log(`pos-d: ${Date.now()}`)
+        }
+
+        btnRequest.addEventListener('click', queryData)
+        btnReload.addEventListener('click', () => {
+            log.textContent = ""
+            document.location.reload()
+        })
+        
+    </script>
+</body>
+</html>
